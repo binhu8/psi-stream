@@ -4,7 +4,7 @@ const conn = myPeer.connect('another-peers-id');
 const peers = {}
 
 
-videoGrid = document.querySelector('#video-grid')
+const videoGrid = document.querySelector('#video-grid')
 const myVideo = document.createElement('video');
 myVideo.classList.add('p1')
 myVideo.muted = true
@@ -40,7 +40,7 @@ myPeer.on('open', id => {
     socket.emit('join-room', roomId, id);
 });
 
-function addVideoStream(video, stream, player){
+function addVideoStream(video, stream){
     video.srcObject = stream;
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
