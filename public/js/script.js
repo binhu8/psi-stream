@@ -62,7 +62,7 @@ function connectToNewUser(userId, stream){
     });
 
     call.on('close', ()=> {
-        video.remove()
+        p1.removeChild(video)
     })
 
     peers[userId] = call
