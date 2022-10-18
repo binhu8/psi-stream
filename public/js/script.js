@@ -1,24 +1,24 @@
 const socket = io('/');
-const myPeer = new Peer();
-const conn = myPeer.connect('another-peers-id');
+const peer = new Peer();
+const conn = peer.connect('another-peers-id');
 const peers = {}
 
-const videoGrid = document.querySelector('#video-grid');
+const myFace = document.querySelector('.my-face');
+const clientFace = document.querySelector('.client-face');
 const myVideo = document.createElement('video');
-myVideo.classList.add('p1')
 myVideo.muted = true
 
 navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
 }).then(stream => {
-    addVideoStream(myVideo, stream);
 
-    myPeer.on('call', call=> {
+    addMyvideo(myVideo, stream);
+
+    peer.on('call', call=> {
         call.answer(stream);
 
         const video = document.createElement('video')
-        video.classList.add('p2')
         call.on('stream', userVideoStream => {
             addVideoStream(video, userVideoStream)
         })
@@ -26,17 +26,17 @@ navigator.mediaDevices.getUserMedia({
 
     socket.on('user-connected', userId => {
         connectToNewUser(userId, stream)
-    });
-
-    
+    })
 });
 
 socket.on('user-disconnected', userId => {
-    peers[userId] ? peers[userId].close() : false
+    console.log(peers[userId] ? true : false)
+    console.log('teste')
+    peers[userId] ? peers[userId].close() : ''
 })
 
-myPeer.on('open', id => {
-    socket.emit('join-room', roomId, id);
+peer.on('open', id => {
+    socket.emit('join-room', roomId, id, );
 });
 
 function addVideoStream(video, stream){
@@ -44,16 +44,22 @@ function addVideoStream(video, stream){
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
     });
-    videoGrid.append(video)
+    clientFace.append(video)
+}
+function addMyvideo(video, stream){
+    video.srcObject = stream;
+    video.addEventListener('loadedmetadata', ()=>{
+        video.play()
+    });
+    myFace.append(video)
 }
 
 function connectToNewUser(userId, stream){
-    const call = myPeer.call(userId, stream);
+    const call = peer.call(userId, stream);
 
 
 
     const video = document.createElement('video')
-    video.classList.add('p2')
     call.on('stream', userVideoStream => {
         addVideoStream(video, userVideoStream);
     });
