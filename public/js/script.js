@@ -3,10 +3,7 @@ const myPeer = new Peer();
 const conn = myPeer.connect('another-peers-id');
 const peers = {}
 
-
-const p1 = document.querySelector('.p1');
-const p2 = document.querySelector('.p2');
-
+const videoGrid = document.querySelector('#video-grid');
 const myVideo = document.createElement('video');
 myVideo.classList.add('p1')
 myVideo.muted = true
@@ -15,8 +12,7 @@ navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
 }).then(stream => {
-    p1.removeChild(video)
-    addVideoStream(myVideo, stream, 1);
+    addVideoStream(myVideo, stream);
 
     myPeer.on('call', call=> {
         call.answer(stream);
@@ -24,7 +20,7 @@ navigator.mediaDevices.getUserMedia({
         const video = document.createElement('video')
         video.classList.add('p2')
         call.on('stream', userVideoStream => {
-            addVideoStream(video, userVideoStream, 2)
+            addVideoStream(video, userVideoStream)
         })
     })
 
@@ -43,12 +39,12 @@ myPeer.on('open', id => {
     socket.emit('join-room', roomId, id);
 });
 
-function addVideoStream(video, stream, player){
+function addVideoStream(video, stream){
     video.srcObject = stream;
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
     });
-    player == 1 ? p1.append(video) : p2.append(video)
+    videoGrid.append(video)
 }
 
 function connectToNewUser(userId, stream){
@@ -63,7 +59,7 @@ function connectToNewUser(userId, stream){
     });
 
     call.on('close', ()=> {
-        p1.removeChild(video)
+        video.remove()
     })
 
     peers[userId] = call
