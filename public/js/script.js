@@ -4,9 +4,7 @@ const conn = myPeer.connect('another-peers-id');
 const peers = {}
 
 
-const p1 = document.querySelector('.p1');
-const p2 = document.querySelector('.p2');
-
+videoGrid = document.querySelector('#video-grid')
 const myVideo = document.createElement('video');
 myVideo.classList.add('p1')
 myVideo.muted = true
@@ -47,7 +45,7 @@ function addVideoStream(video, stream, player){
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
     });
-    player == 1 ? p1.append(video) : p2.append(video)
+    videoGrid.append(video)
 }
 
 function connectToNewUser(userId, stream){
