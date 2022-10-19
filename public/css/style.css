@@ -78,12 +78,15 @@ ul{
 }
 ul li{
     list-style: none;
-    margin: 0 10px;
+    margin: 0 30px;
 }
 
 .end-call{
     padding: 0.5rem;
-    border-radius: 50%;
+    border-radius: 10px;
     background-color: #FB2C2C;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+
 }

@@ -24,6 +24,7 @@ myVideo.muted = true;
 
 
 options.endCall.addEventListener('click', ()=> {
+   
     window.close()
 })
 
@@ -102,7 +103,8 @@ function getUserMedia(videoConstraints, audioConstranst){
     })
 }
 
-getUserMedia({facingMode: 'user'}, true)
+getUserMedia({width: { min: 720, ideal: 1280, max: 1920 },
+    height: { min: 576, ideal: 720, max: 1080 }}, true)
 
 socket.on('user-disconnected', userId => {
     peers[userId] ? peers[userId].close() : false
