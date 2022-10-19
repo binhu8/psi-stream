@@ -13,7 +13,7 @@ const peers = {}
 
 let constraints = {
     audo: true, 
-    video: {exact: 'user'} 
+    video: {exact: 'enverionment'} 
 }
 
 const options = {
@@ -28,15 +28,6 @@ options.switchCamera.addEventListener('click', ()=>{
     const video = document.querySelector('.myVideo');
     video.pause()
     
-    navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-        
-        video.srcObject = stream;
-        video.play()
-        video.addEventListener('loadedmetadata', ()=>{
-            video.play()
-        });
-    
-    })
 });
 
 myVideo.muted = true;
