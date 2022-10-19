@@ -12,7 +12,7 @@ myVideo.classList.add('myVideo')
 const peers = {}
 
 let constraints = {
-    audo: true, 
+    audio: true, 
     video: {facingMode: "environment"} 
 }
 
@@ -28,10 +28,12 @@ options.switchCamera.addEventListener('click', ()=>{
     video.pause()
     video.srcObject = null
     frontCamera ? constraints.video.facingMode = "user"  : constraints.video.facingMode = "environment"
+    console.log(constraints)
     navigator.mediaDevices.getUserMedia(constraints).then(str => {
         video.srcObject = str
+        console.log(video, video.srcObject)
         video.play()
-        myVideo.appendChild(video)
+        myFace.appendChild(video)
     })
     
 });
