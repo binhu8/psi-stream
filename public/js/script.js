@@ -2,17 +2,28 @@ const socket = io('/');
 const myPeer = new Peer();
 const conn = myPeer.connect('another-peers-id');
 const peers = {}
+let front = true
+
+const getUserMedia = navigator.mediaDevices.getUserMedia
+const fliCamera = document.querySelector('#flip-camera')
+
+fliCamera.addEventListener('click', ()=>{
+    front = !front
+    getUserMedia(constraints)
+})
 
 const myFace = document.querySelector('.my-face');
 const clientFace = document.querySelector('.client-face');
-const myVideo = document.createElement('video');
-myVideo.classList.add('p1')
-myVideo.muted = true
+const myVideo = document.createElement('video')
+myVideo.muted = true;
+const constraints = {
+    audo: true, 
+    video: {facingMode: front ? 'user' : 'environment'} 
+}
 
-navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: true
-}).then(stream => {
+
+
+getUserMedia(constraints).then(stream => {
     addMyVideo(myVideo, stream);
 
     myPeer.on('call', call=> {
