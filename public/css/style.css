@@ -86,7 +86,10 @@ ul li{
     border-radius: 10px;
     background-color: #FB2C2C;
     cursor: pointer;
-    display: flex;
-    align-items: center;
+}
 
+@media screen and (max-width: 1000px){
+    .options{
+        left: 20px;
+    }
 }
