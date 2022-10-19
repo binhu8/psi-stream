@@ -24,9 +24,14 @@ const getUserMedia = navigator.mediaDevices.getUserMedia
 
 options.switchCamera.addEventListener('click', ()=>{
     frontCamera = !frontCamera
-    frontCamera ? constraints.video.exact = "user"  : constraints.video.exact = "environment"
     const video = document.querySelector('.myVideo');
     video.pause()
+    video.srcObject = null
+    frontCamera ? constraints.video.facingMode = "user"  : constraints.video.facingMode = "environment"
+    navigator.mediaDevices.getUserMedia(constraints).then(str => {
+        video.srcObject = str
+        video.play()
+    })
     
 });
 
