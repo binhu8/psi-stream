@@ -83,8 +83,8 @@ function getUserMedia(videoConstraints, audioConstranst){
         });
 
 
-        currentStream= stream;
         addMyVideo(myVideo, stream);
+       
         
         myPeer.on('call', call=> {
             const video = document.createElement('video')
@@ -99,7 +99,8 @@ function getUserMedia(videoConstraints, audioConstranst){
             connectToNewUser(userId, stream)
         });
 
-        socket.emit('join-room', roomId)
+        socket.emit('join-room', roomId);
+        currentStream= stream;
     })
 }
 
