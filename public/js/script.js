@@ -20,12 +20,16 @@ const options = {
     switchCamera: document.querySelector('#flip-camera'),
 }
 
+const getUserMedia = navigator.mediaDevices.getUserMedia
+
 options.switchCamera.addEventListener('click', ()=>{
     frontCamera = !frontCamera
     frontCamera ? constraints.video = true  : constraints.video.facingMode = 'environment'
     console.log(frontCamera)
     
-    getUserMedia(constraints).then(stream => {
+    getUserMedia({
+        video: {facingMode: 'environment'}
+    }).then(stream => {
         const video = document.querySelector('.myVideo')
         video.srcObject = stream;
         video.addEventListener('loadedmetadata', ()=>{
@@ -38,7 +42,7 @@ options.switchCamera.addEventListener('click', ()=>{
 myVideo.muted = true;
 
 
-const getUserMedia = navigator.mediaDevices.getUserMedia
+
 
 
 
