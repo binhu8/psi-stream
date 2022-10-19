@@ -99,7 +99,7 @@ function getUserMedia(videoConstraints, audioConstranst){
             connectToNewUser(userId, stream)
         });
 
-        
+        socket.emit('join-room', roomId)
     })
 }
 
