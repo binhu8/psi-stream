@@ -34,7 +34,7 @@ options.switchCamera.addEventListener('click', ()=>{
         stopMediaTracks(currentStream);
     }
     const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
-    changeCamera(videoConstraints)
+    getUserMedia(videoConstraints)
 });
 
 
@@ -45,20 +45,7 @@ function stopMediaTracks(stream){
     })
    }
 
-function changeCamera(videoConstraints, audioConstranst){
-    const constraints = {
-        audio: audioConstranst,
-        video: videoConstraints
-    }
-
-    navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-        const myFaceVideo = document.querySelector('.myFaceVideo')
-        myFaceVideo.srcObject = stream
-        myFaceVideo.addEventListener('loadedmetadata', ()=> {
-            myFaceVideo.play()
-        })
-    })
-}
+   
 
 
 
@@ -131,7 +118,6 @@ myPeer.on('open', id => {
 });
 
 function addVideoStream(video, stream){
-    video.classList.add('myFaceVideo')
     video.srcObject = stream;
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
