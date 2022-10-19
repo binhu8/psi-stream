@@ -99,8 +99,7 @@ function getUserMedia(videoConstraints, audioConstranst){
             connectToNewUser(userId, stream)
         });
 
-        newVideo.srcObject= stream
-        addVideoStream(newVideo, stream)
+        
     })
 }
 
