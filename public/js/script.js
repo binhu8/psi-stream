@@ -76,7 +76,7 @@ function addMyVideo(video, stream){
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
     });
-    myFace.appendChild(video)
+    myFace.apend(video)
 }
 
 function connectToNewUser(userId, stream){
