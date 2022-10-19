@@ -7,13 +7,12 @@ let frontCamera = false
 let stream;
 const myFace = document.querySelector('.my-face');
 const clientFace = document.querySelector('.client-face');
-const myVideo = document.createElement('video');
-myVideo.classList.add('myVideo')
+const myVideo = document.createElement('video')
 const peers = {}
 
 let constraints = {
     audo: true, 
-    video: {facingMode: ''} 
+    video: {facingMode: 'user'} 
 }
 
 const options = {
@@ -22,16 +21,11 @@ const options = {
 
 options.switchCamera.addEventListener('click', ()=>{
     frontCamera = !frontCamera
-    frontCamera ? constraints.video = true  : constraints.video.facingMode = 'environment'
+    constraints.video.facingMode = frontCamera ? '' : 'environment'
     console.log(frontCamera)
     
     getUserMedia(constraints).then(stream => {
-        const video = document.querySelector('.myVideo')
-        video.srcObject = stream;
-        video.addEventListener('loadedmetadata', ()=>{
-            video.play()
-        });
-    
+        addMyVideo(myVideo, stream)
     })
 });
 
