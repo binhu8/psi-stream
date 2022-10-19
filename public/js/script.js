@@ -3,66 +3,66 @@ const socket = io('/');
 const myPeer = new Peer();
 const conn = myPeer.connect('another-peers-id');
 
-let frontCamera = false
-let stream;
+let frontal = false
+let currentStream;
 const myFace = document.querySelector('.my-face');
 const clientFace = document.querySelector('.client-face');
 const myVideo = document.createElement('video');
 myVideo.classList.add('myVideo')
 const peers = {}
 
-let constraints = {
-    audio: true, 
-    video: {facingMode: "environment"} 
-}
-
 const options = {
     switchCamera: document.querySelector('#flip-camera'),
 }
 
-const getUserMedia = navigator.mediaDevices.getUserMedia
-
-options.switchCamera.addEventListener('click', ()=>{
-    frontCamera = !frontCamera
-    const video = document.querySelector('.myVideo');
-    video.pause()
-    video.srcObject = null
-    frontCamera ? constraints.video.facingMode = "user"  : constraints.video.facingMode = "environment"
-    console.log(constraints)
-    navigator.mediaDevices.getUserMedia(constraints).then(str => {
-        video.srcObject = str
-        console.log(video, video.srcObject)
-        video.play()
-        myFace.appendChild(video)
-    })
-    
-});
-
 myVideo.muted = true;
 
 
-
-
-
-
-getUserMedia(constraints).then(stream => {
-    addMyVideo(myVideo, stream);
-    this.stream = stream;
+options.switchCamera.addEventListener('click', ()=>{
     
-    myPeer.on('call', call=> {
-        call.answer(stream);
+    if(typeof currentStream != undefined) {
+        frontal = !frontal
+        stopMediaTracks(currentStream);
+    }
+    const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
+    getUserMedia(videoConstraints)
+});
 
-        const video = document.createElement('video')
-        video.classList.add('p2')
-        call.on('stream', userVideoStream => {
-            addVideoStream(video, userVideoStream)
+function stopMediaTracks(stream){
+    stream.getTracks().forEach(track => {
+        track.stop()
+    })
+   }
+
+
+
+
+function getUserMedia(videoConstraints){
+
+    const constraints = {
+        audio: true,
+        video: videoConstraints
+    }
+    navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        currentStream= stream;
+        addMyVideo(myVideo, stream);
+        
+        myPeer.on('call', call=> {
+            call.answer(stream);
+
+            const video = document.createElement('video')
+            call.on('stream', userVideoStream => {
+                addVideoStream(video, userVideoStream)
+            })
+        })
+
+        socket.on('user-connected', userId => {
+            connectToNewUser(userId, stream)
         })
     })
+}
 
-    socket.on('user-connected', userId => {
-        connectToNewUser(userId, stream)
-    })
-});
+getUserMedia({facingMode: 'user'})
 
 socket.on('user-disconnected', userId => {
     peers[userId] ? peers[userId].close() : false

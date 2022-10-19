@@ -8,29 +8,44 @@
 </head>
 <body>
     <div class="video"></div>
+    <select id="devices"></select>
     <button>Trocar</button>
     <script>
         const videoContainer = document.querySelector('.video');
         const video = document.createElement('video');
         const botao = document.querySelector('button')
         let frontal = true
+        let stream = null
         const constrainst = {
             audio: true,
             video: true
         }
 
-        botao.addEventListener('click', ()=> {
-            frontal = !frontal
-            constrainst.video = {facingMode: frontal ? 'user': 'enverionment'}
-            navigator.mediaDevices.getUserMedia(constrainst).then(stream => {
-                video.srcObject = stream;
+        function showCam(){
+            constrainst.video = {facingMode: frontal ? 'user' : 'environment'}
+            navigator.mediaDevices.getUserMedia(constrainst).then(_stream => {
+
+            stream = _stream
+            video.srcObject = stream;
+            video.play()
+            video.addEventListener('onloadedmetadata', ()=> {
                 video.play()
-                video.addEventListener('onloadedmetadata', ()=> {
-                    video.play()
-                })
-                videoContainer.appendChild(video)
             })
-        })
+            videoContainer.appendChild(video)
+            })
+        }
+
+        botao.addEventListener('click', ()=> {
+            if(stream == num) return;
+
+            stream.getTracks().forEach(t => {
+                t.stop()
+            });
+            frontal = !frontal
+            showCam()            
+        });
+
+
 
 
     </script>
