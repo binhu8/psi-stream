@@ -23,8 +23,7 @@ options.switchCamera.addEventListener('click', ()=>{
     frontCamera = !frontCamera
     constraints.video.facingMode = frontCamera ? 'user' : 'environment'
     console.log(frontCamera)
-    myVideo.pause()
-    console.log(constraints)
+    
     getUserMedia(constraints).then(stream => {
         addMyVideo(myVideo, stream)
     })
@@ -69,7 +68,7 @@ function addVideoStream(video, stream){
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
     });
-    clientFace.appendChild(video)
+    clientFace.append(video)
 }
 
 function addMyVideo(video, stream){
