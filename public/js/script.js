@@ -13,7 +13,7 @@ const peers = {}
 
 let constraints = {
     audo: true, 
-    video: {exact: 'enverionment'} 
+    video: {facingMode: "environment"} 
 }
 
 const options = {
