@@ -87,3 +87,9 @@ ul li{
     background-color: #FB2C2C;
     cursor: pointer;
 }
+
+@media screen and (max-width: 1000px){
+    .options{
+        left: 20px;
+    }
+}
