@@ -5,6 +5,7 @@ const conn = myPeer.connect('another-peers-id');
 
 let frontal = false
 let muted = false
+let videoDisabled = false
 let currentStream;
 const myFace = document.querySelector('.my-face');
 const clientFace = document.querySelector('.client-face');
@@ -14,11 +15,17 @@ const peers = {}
 
 const options = {
     switchCamera: document.querySelector('#flip-camera'),
-    mic: document.queryCommandValue('#mic')
+    mic: document.querySelector('#mic'),
+    video: document.querySelector('#video'),
+    endCall: document.querySelector('.end-call')
 }
 
 myVideo.muted = true;
 
+
+options.endCall.addEventListener('click', ()=> {
+    window.close()
+})
 
 options.switchCamera.addEventListener('click', ()=>{
     
@@ -30,11 +37,7 @@ options.switchCamera.addEventListener('click', ()=>{
     getUserMedia(videoConstraints)
 });
 
-options.mic.addEventListener('click', ()=>{
-    muted = !muted
-    const audioConstranst = !muted 
-    getUserMedia(audioConstranst)
-});
+
 
 function stopMediaTracks(stream){
     stream.getTracks().forEach(track => {
@@ -52,6 +55,33 @@ function getUserMedia(videoConstraints, audioConstranst){
         video: videoConstraints
     }
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        
+        options.mic.addEventListener('click', ()=>{
+            const microfone = document.querySelector('.mic')
+            if(stream.getAudioTracks()[0].enabled){ 
+                microfone.src = '/images/mute.png'
+                stream.getAudioTracks()[0].enabled = false
+            }else{
+                microfone.src = '/images/mic.png'
+                stream.getAudioTracks()[0].enabled = true
+
+            }
+        });
+
+        options.video.addEventListener('click', ()=>{
+            const video = document.querySelector('.video')
+            console.log(stream.getAudioTracks()[0])
+            if(stream.getVideoTracks()[0].enabled){ 
+                video.src = '/images/no-video.png'
+                stream.getVideoTracks()[0].enabled = false
+            }else{
+                video.src = '/images/video.png'
+                stream.getVideoTracks()[0].enabled = true
+
+            }
+        });
+
+
         currentStream= stream;
         addMyVideo(myVideo, stream);
         
