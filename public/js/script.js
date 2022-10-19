@@ -3,7 +3,8 @@ const myPeer = new Peer();
 const conn = myPeer.connect('another-peers-id');
 const peers = {}
 
-const videoGrid = document.querySelector('#video-grid');
+const myFace = document.querySelector('.my-face');
+const clientFace = document.querySelector('.client-face');
 const myVideo = document.createElement('video');
 myVideo.classList.add('p1')
 myVideo.muted = true
@@ -12,7 +13,7 @@ navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
 }).then(stream => {
-    addVideoStream(myVideo, stream);
+    addMyVideo(myVideo, stream);
 
     myPeer.on('call', call=> {
         call.answer(stream);
@@ -42,7 +43,15 @@ function addVideoStream(video, stream){
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
     });
-    videoGrid.appendChild(video)
+    clientFace.appendChild(video)
+}
+
+function addMyVideo(video, stream){
+    video.srcObject = stream;
+    video.addEventListener('loadedmetadata', ()=>{
+        video.play()
+    });
+    myFace.appendChild(video)
 }
 
 function connectToNewUser(userId, stream){

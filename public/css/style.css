@@ -1,27 +1,58 @@
-
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-#video-grid{
-    display: flex;
+.container{
+    max-width: 100%;
     height: 100vh;
-    width: 100vw;
+    display: flex;
+    position: relative;
 }
 
-.p1{
-    width: 250px;
-    height: 150px;
-    object-fit: cover;
+.my-face{
+    width: 150px;
+    height: 250px;
+    background: #000;
     position: absolute;
-
+    right: 15px;
+    bottom: 15px;
+    overflow: hidden;
+    border-radius: 10px;
+    -webkit-box-shadow: -12px -8px 45px -8px rgba(0,0,0,0.75);
+    -moz-box-shadow: -12px -8px 45px -8px rgba(0,0,0,0.75);
+    box-shadow: -12px -8px 45px -8px rgba(0,0,0,0.75);
 }
 
-.p2{
+.client-face{
     width: 100%;
     height: 100%;
-    background-color: blue;
+    position: relative;
+    overflow: hidden;
+
+ 
+}
+
+.my-face video{
+    position: absolute;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    top:0;
+    left: 0;
+    z-index: 200;
+    transform: scaleX(-1);
+
+    
+}
+
+.client-face video{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top:0;
+    left: 0;
+    transform: scaleX(-1);
 }
