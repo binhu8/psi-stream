@@ -68,15 +68,17 @@ function addVideoStream(video, stream){
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
     });
-    clientFace.append(video)
+    clientFace.appendChild(video)
 }
 
 function addMyVideo(video, stream){
+    console.log(stream)
     video.srcObject = stream;
+    video.play()
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
     });
-    myFace.apend(video)
+    myFace.appendChild(video)
 }
 
 function connectToNewUser(userId, stream){
