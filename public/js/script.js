@@ -28,7 +28,8 @@ options.switchCamera.addEventListener('click', ()=>{
     const video = document.querySelector('.myVideo');
     video.pause()
     
-    getUserMedia({
+    navigator.mediaDevices.getUserMedia({
+        audio: true,
         video: {facingMode: 'environment'}
     }).then(stream => {
         
