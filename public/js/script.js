@@ -54,6 +54,7 @@ function getUserMedia(videoConstraints, audioConstranst){
         audio: audioConstranst,
         video: videoConstraints
     }
+    const newVideo = document.createElement('video')
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         
         options.mic.addEventListener('click', ()=>{
@@ -86,9 +87,9 @@ function getUserMedia(videoConstraints, audioConstranst){
         addMyVideo(myVideo, stream);
         
         myPeer.on('call', call=> {
+            const video = document.createElement('video')
             call.answer(stream);
 
-            const video = document.createElement('video')
             call.on('stream', userVideoStream => {
                 addVideoStream(video, userVideoStream)
             })
@@ -96,7 +97,10 @@ function getUserMedia(videoConstraints, audioConstranst){
 
         socket.on('user-connected', userId => {
             connectToNewUser(userId, stream)
-        })
+        });
+
+        newVideo.srcObject= stream
+        addVideoStream(newVideo, stream)
     })
 }
 
