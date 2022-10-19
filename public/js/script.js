@@ -3,6 +3,7 @@ const socket = io('/');
 const myPeer = new Peer();
 const conn = myPeer.connect('another-peers-id');
 
+let windowCall = window
 let frontal = false
 let muted = false
 let videoDisabled = false
@@ -24,8 +25,7 @@ myVideo.muted = true;
 
 
 options.endCall.addEventListener('click', ()=> {
-   
-    window.close()
+   self.close()
 })
 
 // options.switchCamera.addEventListener('click', ()=>{
