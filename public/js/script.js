@@ -13,7 +13,7 @@ const peers = {}
 
 let constraints = {
     audo: true, 
-    video: {facingMode: ''} 
+    video: {exact: 'user'} 
 }
 
 const options = {
@@ -31,6 +31,7 @@ options.switchCamera.addEventListener('click', ()=>{
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         
         video.srcObject = stream;
+        video.play()
         video.addEventListener('loadedmetadata', ()=>{
             video.play()
         });
