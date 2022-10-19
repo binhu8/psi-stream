@@ -33,6 +33,7 @@ options.switchCamera.addEventListener('click', ()=>{
     }).then(stream => {
         
         video.srcObject = stream;
+        video.play()
         video.addEventListener('loadedmetadata', ()=>{
             video.play()
         });
