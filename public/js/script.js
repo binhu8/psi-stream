@@ -14,7 +14,7 @@ myVideo.classList.add('myVideo')
 const peers = {}
 
 const options = {
-    switchCamera: document.querySelector('#flip-camera'),
+    // switchCamera: document.querySelector('#flip-camera'),
     mic: document.querySelector('#mic'),
     video: document.querySelector('#video'),
     endCall: document.querySelector('.end-call')
@@ -27,15 +27,15 @@ options.endCall.addEventListener('click', ()=> {
     window.close()
 })
 
-options.switchCamera.addEventListener('click', ()=>{
+// options.switchCamera.addEventListener('click', ()=>{
     
-    if(typeof currentStream != undefined) {
-        frontal = !frontal
-        stopMediaTracks(currentStream);
-    }
-    const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
-    getUserMedia(videoConstraints)
-});
+//     if(typeof currentStream != undefined) {
+//         frontal = !frontal
+//         stopMediaTracks(currentStream);
+//     }
+//     const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
+//     getUserMedia(videoConstraints)
+// });
 
 
 
@@ -44,8 +44,6 @@ function stopMediaTracks(stream){
         track.stop()
     })
    }
-
-   
 
 
 
@@ -85,8 +83,8 @@ function getUserMedia(videoConstraints, audioConstranst){
         });
 
 
+        currentStream= stream;
         addMyVideo(myVideo, stream);
-       
         
         myPeer.on('call', call=> {
             const video = document.createElement('video')
@@ -100,10 +98,7 @@ function getUserMedia(videoConstraints, audioConstranst){
         socket.on('user-connected', userId => {
             connectToNewUser(userId, stream)
         });
-
-        connectToNewUser
         
-        currentStream= stream;
     })
 }
 
