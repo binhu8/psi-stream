@@ -34,7 +34,7 @@ options.switchCamera.addEventListener('click', ()=>{
         stopMediaTracks(currentStream);
     }
     const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
-    getUserMedia(videoConstraints)
+    changeCamera(videoConstraints)
 });
 
 
@@ -44,6 +44,21 @@ function stopMediaTracks(stream){
         track.stop()
     })
    }
+
+function changeCamera(videoConstraints, audioConstranst){
+    const constraints = {
+        audio: audioConstranst,
+        video: videoConstraints
+    }
+
+    navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        const myFaceVideo = document.querySelector('.myFaceVideo')
+        myFaceVideo.srcObject = stream
+        myFaceVideo.addEventListener('loadedmetadata', ()=> {
+            myFaceVideo.play()
+        })
+    })
+}
 
 
 
@@ -97,9 +112,9 @@ function getUserMedia(videoConstraints, audioConstranst){
 
         socket.on('user-connected', userId => {
             connectToNewUser(userId, stream)
-            socket.to('join-room', roomId).emit('user-connected');
         });
 
+        connectToNewUser
         
         currentStream= stream;
     })
@@ -116,6 +131,7 @@ myPeer.on('open', id => {
 });
 
 function addVideoStream(video, stream){
+    video.classList.add('myFaceVideo')
     video.srcObject = stream;
     video.addEventListener('loadedmetadata', ()=>{
         video.play()
