@@ -3,16 +3,16 @@ const socket = io('/');
 const myPeer = new Peer();
 const conn = myPeer.connect('another-peers-id');
 
-let frontCamera = true
+let frontCamera = false
 let stream;
 const myFace = document.querySelector('.my-face');
 const clientFace = document.querySelector('.client-face');
 const myVideo = document.createElement('video')
 const peers = {}
 
-const constraints = {
+let constraints = {
     audo: true, 
-    video: {facingMode: frontCamera ? 'user' : 'environment'} 
+    video:{facingMode: frontCamera == true ? 'user' : 'environment'} 
 }
 
 const options = {
@@ -21,8 +21,11 @@ const options = {
 
 options.switchCamera.addEventListener('click', ()=>{
     frontCamera = !frontCamera
+    constraints.video.facingMode = frontCamera ? 'user' : 'environment'
+    console.log(frontCamera)
     myVideo.pause()
     myVideo.srcObject = null
+    console.log(constraints)
     getUserMedia(constraints).then(stream => {
         addMyVideo(myVideo, stream)
     })
