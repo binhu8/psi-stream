@@ -12,7 +12,7 @@ const peers = {}
 
 let constraints = {
     audo: true, 
-    video:{facingMode: frontCamera == true ? 'user' : 'environment'} 
+    video: {facingMode: 'user'} 
 }
 
 const options = {
@@ -24,7 +24,6 @@ options.switchCamera.addEventListener('click', ()=>{
     constraints.video.facingMode = frontCamera ? 'user' : 'environment'
     console.log(frontCamera)
     myVideo.pause()
-    myVideo.srcObject = null
     console.log(constraints)
     getUserMedia(constraints).then(stream => {
         addMyVideo(myVideo, stream)
