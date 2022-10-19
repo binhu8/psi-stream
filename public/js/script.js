@@ -31,6 +31,7 @@ options.switchCamera.addEventListener('click', ()=>{
     navigator.mediaDevices.getUserMedia(constraints).then(str => {
         video.srcObject = str
         video.play()
+        myVideo.appendChild(video)
     })
     
 });
