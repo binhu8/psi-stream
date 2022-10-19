@@ -61,15 +61,20 @@
 
 .options{
     position: absolute;
-    padding: 1rem;
-    background-color: #000;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.87);
     border-radius: 5px;
     color: #fff;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 201;
+}
+ul{
+    display: flex;
+    align-items: center;
 }
 ul li{
     list-style: none;
-}
-svg{
-    fill: #fff;
-    cursor: pointer;
+    margin: 0 10px;
 }

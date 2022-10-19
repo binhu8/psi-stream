@@ -4,6 +4,7 @@ const myPeer = new Peer();
 const conn = myPeer.connect('another-peers-id');
 
 let frontal = false
+let muted = false
 let currentStream;
 const myFace = document.querySelector('.my-face');
 const clientFace = document.querySelector('.client-face');
@@ -13,6 +14,7 @@ const peers = {}
 
 const options = {
     switchCamera: document.querySelector('#flip-camera'),
+    mic: document.queryCommandValue('#mic')
 }
 
 myVideo.muted = true;
@@ -28,6 +30,12 @@ options.switchCamera.addEventListener('click', ()=>{
     getUserMedia(videoConstraints)
 });
 
+options.mic.addEventListener('click', ()=>{
+    muted = !muted
+    const audioConstranst = !muted 
+    getUserMedia(audioConstranst)
+});
+
 function stopMediaTracks(stream){
     stream.getTracks().forEach(track => {
         track.stop()
@@ -37,10 +45,10 @@ function stopMediaTracks(stream){
 
 
 
-function getUserMedia(videoConstraints){
+function getUserMedia(videoConstraints, audioConstranst){
 
     const constraints = {
-        audio: true,
+        audio: audioConstranst,
         video: videoConstraints
     }
     navigator.mediaDevices.getUserMedia(constraints).then(stream => {
@@ -62,7 +70,7 @@ function getUserMedia(videoConstraints){
     })
 }
 
-getUserMedia({facingMode: 'user'})
+getUserMedia({facingMode: 'user'}, true)
 
 socket.on('user-disconnected', userId => {
     peers[userId] ? peers[userId].close() : false
