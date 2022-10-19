@@ -25,12 +25,13 @@ const getUserMedia = navigator.mediaDevices.getUserMedia
 options.switchCamera.addEventListener('click', ()=>{
     frontCamera = !frontCamera
     frontCamera ? constraints.video = true  : constraints.video.facingMode = 'environment'
-    console.log(frontCamera)
+    const video = document.querySelector('.myVideo');
+    video.pause()
     
     getUserMedia({
         video: {facingMode: 'environment'}
     }).then(stream => {
-        const video = document.querySelector('.myVideo')
+        
         video.srcObject = stream;
         video.addEventListener('loadedmetadata', ()=>{
             video.play()
