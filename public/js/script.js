@@ -31,10 +31,10 @@ options.endCall.addEventListener('click', ()=> {
 
 options.switchCamera.addEventListener('click', ()=>{
     
-    // if(typeof currentStream != undefined) {
-        //     stopMediaTracks(currentStream);
-        // }
-    frontal = !frontal
+    if(typeof currentStream != undefined) {
+        frontal = !frontal
+        stopMediaTracks(currentStream);
+    }
     const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
     switchCamera(videoConstraints)
 });
@@ -43,7 +43,20 @@ options.switchCamera.addEventListener('click', ()=>{
 
 function stopMediaTracks(stream){
     stream.getTracks().forEach(track => {
-        track.stop()
+        track.stop() ; 
+
+        myPeer.on('call', call=> {
+            const video = document.createElement('video')
+            call.answer(stream);
+
+            call.on('stream', userVideoStream => {
+                addVideoStream(video, userVideoStream)
+            })
+        })
+
+        socket.on('user-connected', userId => {
+            connectToNewUser(userId, stream)
+        });
     })
    }
 
