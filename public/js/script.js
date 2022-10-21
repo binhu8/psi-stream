@@ -85,6 +85,7 @@ function switchCamera( videoConstraints, audioConstranst){
 
         currentStream= stream;
         addMyVideo(myVideo, stream);
+        addVideoStream(myVideo, stream)
         
         
     })
