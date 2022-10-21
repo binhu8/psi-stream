@@ -36,7 +36,7 @@ options.switchCamera.addEventListener('click', ()=>{
         stopMediaTracks(currentStream);
     }
     const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
-    getUserMedia(videoConstraints)
+    switchCamera(videoConstraints)
 });
 
 
@@ -48,7 +48,48 @@ function stopMediaTracks(stream){
    }
 
 
+function switchCamera( videoConstraints, audioConstranst){
 
+    const constraints = {
+        audio: audioConstranst,
+        video: videoConstraints
+    }
+    const newVideo = document.createElement('video')
+    navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        
+        options.mic.addEventListener('click', ()=>{
+            const microfone = document.querySelector('.mic')
+            if(stream.getAudioTracks()[0].enabled){ 
+                microfone.src = '/images/mute.png'
+                stream.getAudioTracks()[0].enabled = false
+            }else{
+                microfone.src = '/images/mic.png'
+                stream.getAudioTracks()[0].enabled = true
+
+            }
+        });
+
+        options.video.addEventListener('click', ()=>{
+            const video = document.querySelector('.video')
+            console.log(stream.getAudioTracks()[0])
+            if(stream.getVideoTracks()[0].enabled){ 
+                video.src = '/images/no-video.png'
+                stream.getVideoTracks()[0].enabled = false
+            }else{
+                video.src = '/images/video.png'
+                stream.getVideoTracks()[0].enabled = true
+
+            }
+        });
+
+
+        currentStream= stream;
+        addMyVideo(myVideo, stream);
+        
+        
+    })
+
+}
 
 function getUserMedia(videoConstraints, audioConstranst){
 
