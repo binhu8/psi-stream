@@ -16,7 +16,7 @@ myVideo.classList.add('myVideo')
 const peers = {}
 
 const options = {
-    switchCamera: document.querySelector('#flip-camera'),
+    // switchCamera: document.querySelector('#flip-camera'),
     mic: document.querySelector('#mic'),
     video: document.querySelector('#video'),
     endCall: document.querySelector('.end-call')
@@ -29,80 +29,26 @@ options.endCall.addEventListener('click', ()=> {
     window.close()
 }, false) 
 
-options.switchCamera.addEventListener('click', ()=>{
+// options.switchCamera.addEventListener('click', ()=>{
     
-    if(typeof currentStream != undefined) {
-        frontal = !frontal
-        stopMediaTracks(currentStream);
-    }
-    const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
-    switchCamera(videoConstraints)
-});
+//     if(typeof currentStream != undefined) {
+//         frontal = !frontal
+//         stopMediaTracks(currentStream);
+//     }
+//     const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
+//     getUserMedia(videoConstraints)
+// });
 
 
 
 function stopMediaTracks(stream){
     stream.getTracks().forEach(track => {
-        track.stop() ; 
-
-        myPeer.on('call', call=> {
-            const video = document.createElement('video')
-            call.answer(stream);
-
-            call.on('stream', userVideoStream => {
-                addVideoStream(video, userVideoStream)
-            })
-        })
-
-        socket.on('user-connected', userId => {
-            connectToNewUser(userId, stream)
-        });
+        track.stop()
     })
    }
 
 
-function switchCamera( videoConstraints, audioConstranst){
 
-    const constraints = {
-        audio: audioConstranst,
-        video: videoConstraints
-    }
-    const newVideo = document.createElement('video')
-    navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-        
-        options.mic.addEventListener('click', ()=>{
-            const microfone = document.querySelector('.mic')
-            if(stream.getAudioTracks()[0].enabled){ 
-                microfone.src = '/images/mute.png'
-                stream.getAudioTracks()[0].enabled = false
-            }else{
-                microfone.src = '/images/mic.png'
-                stream.getAudioTracks()[0].enabled = true
-
-            }
-        });
-
-        options.video.addEventListener('click', ()=>{
-            const video = document.querySelector('.video')
-            console.log(stream.getAudioTracks()[0])
-            if(stream.getVideoTracks()[0].enabled){ 
-                video.src = '/images/no-video.png'
-                stream.getVideoTracks()[0].enabled = false
-            }else{
-                video.src = '/images/video.png'
-                stream.getVideoTracks()[0].enabled = true
-
-            }
-        });
-
-
-        currentStream= stream;
-        addMyVideo(myVideo, stream);
-        
-        
-    })
-
-}
 
 function getUserMedia(videoConstraints, audioConstranst){
 
