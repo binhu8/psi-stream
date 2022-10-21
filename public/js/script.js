@@ -1,4 +1,5 @@
 //imports
+
 const socket = io('/');
 const myPeer = new Peer();
 const conn = myPeer.connect('another-peers-id');
@@ -25,8 +26,8 @@ myVideo.muted = true;
 
 
 options.endCall.addEventListener('click', ()=> {
-   self.close()
-})
+    window.close()
+}, false) 
 
 // options.switchCamera.addEventListener('click', ()=>{
     
@@ -107,7 +108,7 @@ getUserMedia({width: { min: 720, ideal: 1280, max: 1920 },
     height: { min: 576, ideal: 720, max: 1080 }}, true)
 
 socket.on('user-disconnected', userId => {
-    peers[userId] ? peers[userId].close() : false
+    peers[userId] ? peers[userId].close() : window.location.reload()
 })
 
 myPeer.on('open', id => {
