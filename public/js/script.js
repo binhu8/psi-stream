@@ -16,7 +16,7 @@ myVideo.classList.add('myVideo')
 const peers = {}
 
 const options = {
-    // switchCamera: document.querySelector('#flip-camera'),
+    switchCamera: document.querySelector('#flip-camera'),
     mic: document.querySelector('#mic'),
     video: document.querySelector('#video'),
     endCall: document.querySelector('.end-call')
@@ -29,15 +29,15 @@ options.endCall.addEventListener('click', ()=> {
     window.close()
 }, false) 
 
-// options.switchCamera.addEventListener('click', ()=>{
+options.switchCamera.addEventListener('click', ()=>{
     
-//     if(typeof currentStream != undefined) {
-//         frontal = !frontal
-//         stopMediaTracks(currentStream);
-//     }
-//     const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
-//     getUserMedia(videoConstraints)
-// });
+    if(typeof currentStream != undefined) {
+        frontal = !frontal
+        stopMediaTracks(currentStream);
+    }
+    const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
+    getUserMedia(videoConstraints)
+});
 
 
 
