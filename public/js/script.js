@@ -31,10 +31,10 @@ options.endCall.addEventListener('click', ()=> {
 
 options.switchCamera.addEventListener('click', ()=>{
     
-    if(typeof currentStream != undefined) {
-        frontal = !frontal
-        stopMediaTracks(currentStream);
-    }
+    // if(typeof currentStream != undefined) {
+        //     stopMediaTracks(currentStream);
+        // }
+    frontal = !frontal
     const videoConstraints = {facingMode: frontal ? 'user' : 'environment'}
     switchCamera(videoConstraints)
 });
@@ -85,7 +85,6 @@ function switchCamera( videoConstraints, audioConstranst){
 
         currentStream= stream;
         addMyVideo(myVideo, stream);
-        addVideoStream(myVideo, stream)
         
         
     })
